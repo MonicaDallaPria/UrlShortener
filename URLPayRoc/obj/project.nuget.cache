@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "5GbLLWY6w7Ku8FOAbvyH3k5FLKyD1sHpk4nXKFmCjIW/PJwbqU+c/SanLTeaSMO49FNw2ZJzM6Brwrp+vRGU9w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Paul\\source\\repos\\URLPayRoc\\URLPayRoc\\URLPayRoc.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Paul\\.nuget\\packages\\litedb\\5.0.10\\litedb.5.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}

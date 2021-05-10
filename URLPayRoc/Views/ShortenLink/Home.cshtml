@@ -1,0 +1,15 @@
+﻿@*@model Urls
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<form action="ShortenLink/Home" method="post" role="form">
+    <div class="form-group">
+        <label asp-for="OldUrl">URL</label>
+        <input asp-for="OldUrl" type="url" class="form-control" />
+        <button type="submit" class="btn btn-info">shorten</button>
+    </div>
+</form>
+
+<a href="@Model.OldUrl">@Model.NewUrl</a>
+<div id="myDiv">pre-sucess</div>*@

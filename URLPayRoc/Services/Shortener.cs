@@ -10,8 +10,6 @@ namespace URLPayRoc
 		public string Token { get; set; }
 		public string url2 { get; set; }
 
-		public LiteDbOptions biturl;
-
 		public Shortener()
 		{
 
@@ -30,48 +28,11 @@ namespace URLPayRoc
 			return Token;
 		}
 
-		public Shortener(string url)
-		{
-			var db = new LiteDatabase("Data/Urls.db");
-			var urls = db.GetCollection<LiteDbOptions>();
-			// While the token exists in our LiteDB we generate a new one
-			// It basically means that if a token already exists we simply generate a new one
-			while (urls.Exists(u => u.Token == GenerateToken())) ;
-			// Store the values in the NixURL model
-			string baseUrl = biturl.URL;
-			var uri = new Uri(url);
-			var host = uri.Host;
-			biturl = new LiteDbOptions()
-			{
-				Token = Token,
-				URL = url,
-				ShortenedURL = host + Token
-			};
-			if (urls.Exists(u => u.URL == url))
-				throw new Exception("URL already exists");
-			// Save the NixURL model to  the DB
-			urls.Insert(biturl);
-		}
-
 		public string Path(string url)
         {
 			//string baseUrl = biturl.URL;
 			var uri = new Uri(url);
 			return uri.Host;
-		}
-	}
-
-	internal class NixConf
-    {
-        public string Host()
-        {
-			UrlDTO bitUrl = new UrlDTO();
-			string baseUrl = bitUrl.URL;
-			var uri = new Uri(baseUrl);
-			var host = uri.Host;
-
-			return host;
-
 		}
 	}
 }

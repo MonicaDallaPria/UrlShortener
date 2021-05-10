@@ -24,7 +24,6 @@ namespace URLDTO
         {
             services.AddControllersWithViews();
             services.AddSingleton<Shortener>();
-            services.AddSingleton<LiteDbContext>();
             services.AddHttpClient();
         }
 

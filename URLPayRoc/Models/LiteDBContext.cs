@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace URLPayRoc.Models
 {
-    public class LiteDbContext : ILiteDbContext
+    public class LiteDbContext
     {
         public LiteDatabase Database { get; }
         public LiteDatabase DatabaseLocation { get; private set; }
@@ -18,7 +18,7 @@ namespace URLPayRoc.Models
             using (var db = new LiteDatabase(@"Filename=Data/Urls.db; Connection=shared"))
             {
                 DatabaseLocation = db;
-                db.GetCollection<ILiteDbContext>();
+                db.GetCollection<LiteDbContext>();
             }
 
         }

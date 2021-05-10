@@ -1,5 +1,6 @@
 ﻿var submitBtn = document.querySelector("#submit");
 var urlInput = document.querySelector("#urlshort");
+var oldUrl = "";
 submitBtn.onclick = function (ev) {
     let url = urlInput.value;
     fetch("/", {
@@ -9,7 +10,9 @@ submitBtn.onclick = function (ev) {
        
     }).then(res => res.json())
         .then(response => {
-            console.log(response);
+            oldUrl = response;
+            console.log(oldUrl);
+            document.querySelector("#resultText").href = url;
+            document.querySelector("#resultText").innerHTML = oldUrl;
         }
-
-       ) }
+    )}

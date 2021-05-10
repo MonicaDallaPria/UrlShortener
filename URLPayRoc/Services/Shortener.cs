@@ -1,13 +1,6 @@
 ﻿using LiteDB;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using URLDTO.Controllers;
-using URLDTO.Models;
 using URLPayRoc.Models;
 
 namespace URLPayRoc
@@ -15,10 +8,17 @@ namespace URLPayRoc
 	public class Shortener
 	{
 		public string Token { get; set; }
-		public LiteDbOptions biturl;
 		public string url2 { get; set; }
-        // The method with which we generate the token
-        public string GenerateToken()
+
+		public LiteDbOptions biturl;
+
+		public Shortener()
+		{
+
+		}
+
+		// The method with which we generate the token
+		public string GenerateToken()
 		{
 			string urlsafe = string.Empty;
 			Enumerable.Range(48, 75)
@@ -29,10 +29,7 @@ namespace URLPayRoc
 			Token = urlsafe.Substring(new Random().Next(0, urlsafe.Length), new Random().Next(2, 6));
 			return Token;
 		}
-        public Shortener()
-        {
 
-        }
 		public Shortener(string url)
 		{
 			var db = new LiteDatabase("Data/Urls.db");
@@ -42,7 +39,7 @@ namespace URLPayRoc
 			while (urls.Exists(u => u.Token == GenerateToken())) ;
 			// Store the values in the NixURL model
 			string baseUrl = biturl.URL;
-			var uri = new Uri(baseUrl);
+			var uri = new Uri(url);
 			var host = uri.Host;
 			biturl = new LiteDbOptions()
 			{
@@ -56,16 +53,13 @@ namespace URLPayRoc
 			urls.Insert(biturl);
 		}
 
-
-		//      public IEnumerable<UrlDTO> UrlData(string token)
-		//{
-		//	var MainDB = new LiteDB.LiteDatabase(@"Data/Urls.db");
-		//	var collection = MainDB.GetCollection<UrlDTO>();
-		//	return collection.Find(n => n.Token == token);
-		//}
-
+		public string Path(string url)
+        {
+			//string baseUrl = biturl.URL;
+			var uri = new Uri(url);
+			return uri.Host;
+		}
 	}
-
 
 	internal class NixConf
     {
@@ -79,26 +73,7 @@ namespace URLPayRoc
 			return host;
 
 		}
-
-	//static Task Redirect(HttpContext context)
-	//{
-	
-	//	var collection = db.GetCollection<UrlDTO>();
-
-	//	var path = context.Request.Path.ToUriComponent().Trim('/');
-	//	var id = ShortLink.GetId(path);
-	//	var entry = collection.Find(p => p.Id == id).FirstOrDefault();
-
-	//	if (entry != null)
-	//		context.Response.Redirect(entry.Url);
-	//	else
-	//		context.Response.Redirect("/");
-
-	//	return Task.CompletedTask;
-	//}
 	}
-
-
 }
  
     

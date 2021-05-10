@@ -82,7 +82,7 @@ namespace URLDTO.Controllers
                     return Json(new LiteDBURLResponse()
                     {
                         url = url,
-                        status = "already shortened",
+                        status = "already shortenedd",
                         token = null
                     });
                 }

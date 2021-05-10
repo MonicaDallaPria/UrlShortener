@@ -11,7 +11,7 @@ namespace URLDTO.Controllers
 {
 
     // This will be needed later in the PostURL() method
-    public class URLResponse
+    public class LiteDBURLResponse: ILiteDbContext
     {
         public string url { get; set; }
         public string status { get; set; }
@@ -21,10 +21,13 @@ namespace URLDTO.Controllers
     public class HomeController : Controller
     {
         private readonly Shortener _shortener;
+        private readonly ILiteDbContext _liteDbContext;
 
-        public HomeController(Shortener shortener)
+        public HomeController(Shortener shortener,
+            ILiteDbContext liteDbContext)
         {
            _shortener = shortener;
+            _liteDbContext = liteDbContext;
         }
         [HttpGet, Route("/")]
         public IActionResult Index()
@@ -62,8 +65,9 @@ namespace URLDTO.Controllers
         [HttpPost, Route("/")]
         public IActionResult PostURL([FromBody] string url)
         {
+            var DB = new LiteDatabase("Data/Urls.db").GetCollection<LiteDbOptions>();
             // Connect to the database
-            var DB = new LiteDB.LiteDatabase(@"Data/Urls.db").GetCollection<UrlDTO>();
+
             try
             {
                 // If the url does not contain HTTP prefix it with it
@@ -75,7 +79,7 @@ namespace URLDTO.Controllers
                 if (DB.Exists(u => u.ShortenedURL == url))
                 {
                     Response.StatusCode = 405;
-                    return Json(new URLResponse()
+                    return Json(new LiteDBURLResponse()
                     {
                         url = url,
                         status = "already shortened",
@@ -83,11 +87,7 @@ namespace URLDTO.Controllers
                     });
                 }
                 // Shorten the URL and return the token as a json string
-                Shortener shortURL = new Shortener();
-                shortURL.SaveUrl(url);
-                return Content(url);
-                
-                
+                return Json(_shortener.GenerateToken());
                 // Catch and react to exceptions
             }
             catch (Exception ex)
@@ -95,7 +95,7 @@ namespace URLDTO.Controllers
                 if (ex.Message == "URL already exists")
                 {
                     Response.StatusCode = 400;
-                    return Json(new URLResponse()
+                    return Json(new LiteDBURLResponse()
                     {
                         url = url,
                         status = "URL already exists",
@@ -105,13 +105,14 @@ namespace URLDTO.Controllers
                 throw new Exception(ex.Message);
             }
         }
+  
 
 
         [HttpGet, Route("/{token}")]
         public IActionResult NewRedirect([FromRoute] string token)
         {
             return Redirect(
-                new LiteDB.LiteDatabase(@"Data/Urls.db")
+                new LiteDB.LiteDatabase("Data/Urls.db")
                 .GetCollection<UrlDTO>()
                 .FindOne(u => u.Token == token).URL
             );

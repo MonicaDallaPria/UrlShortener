@@ -1,5 +1,4 @@
-﻿
-var submitBtn = document.querySelector("#submit");
+﻿var submitBtn = document.querySelector("#submit");
 var urlInput = document.querySelector("#urlshort");
 submitBtn.onclick = function (ev) {
     let url = urlInput.value;
@@ -12,4 +11,5 @@ submitBtn.onclick = function (ev) {
         .then(response => {
             console.log(response);
         }
+
        ) }

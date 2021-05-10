@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using URLPayRoc;
+using URLPayRoc.Models;
 
 namespace URLDTO
 {
@@ -13,6 +14,7 @@ namespace URLDTO
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -22,6 +24,7 @@ namespace URLDTO
         {
             services.AddControllersWithViews();
             services.AddSingleton<Shortener>();
+            services.AddSingleton<ILiteDbContext, LiteDbContext>();
             services.AddHttpClient();
         }
 

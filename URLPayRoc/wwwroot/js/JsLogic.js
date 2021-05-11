@@ -1,3 +1,0 @@
-﻿$(function () {
-    $("#myDiv").html("success");
-});

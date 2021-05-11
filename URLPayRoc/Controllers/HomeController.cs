@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Net.Http;
-using System.Linq;
-using LiteDB;
-using URLPayRoc.Models;
 using URLPayRoc;
 
 namespace URLDTO.Controllers

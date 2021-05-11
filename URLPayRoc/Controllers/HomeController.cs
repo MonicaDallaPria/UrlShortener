@@ -20,12 +20,10 @@ namespace URLDTO.Controllers
 
         [HttpPost, Route("/")]
         public IActionResult PostURL([FromBody] string url)
-        {
-            
-                var generatedToken = _shortener.GenerateToken();
-                var host = _shortener.Path(url);
-                return Json(host + "/" + generatedToken);            
-            
+        {            
+            var generatedToken = _shortener.GenerateToken();
+            var host = _shortener.Path(url);
+            return Json(host + "/" + generatedToken);   
         }
     }
 }

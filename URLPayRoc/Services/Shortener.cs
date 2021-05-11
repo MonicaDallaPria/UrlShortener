@@ -14,8 +14,6 @@ namespace URLPayRoc
 		{
 
 		}
-
-		// The method with which we generate the token
 		public string GenerateToken()
 		{
 			string urlsafe = string.Empty;
